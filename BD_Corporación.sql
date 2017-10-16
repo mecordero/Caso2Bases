@@ -181,19 +181,20 @@ GO
 USE [BD_Corporación]
 GO
 
-/****** Object:  Table [dbo].[PLANILLA]    Script Date: 10/15/2017 6:35:41 PM ******/
+/****** Object:  Table [dbo].[HISTORIAL_PLANILLAS]    Script Date: 10/16/2017 3:11:31 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[PLANILLA](
+CREATE TABLE [dbo].[HISTORIAL_PLANILLAS](
 	[id_planilla] [int] NOT NULL,
 	[id_empleado] [int] NULL,
 	[id_planta] [int] NULL,
 	[salario_bruto] [decimal](19, 6) NULL,
 	[salario_neto] [decimal](19, 6) NULL,
+	[fecha] [date] NULL,
  CONSTRAINT [PK_PLANILLA] PRIMARY KEY CLUSTERED 
 (
 	[id_planilla] ASC
@@ -223,13 +224,11 @@ ALTER TABLE [dbo].[PAGO_PLANILLAS] CHECK CONSTRAINT [FK_PAGO_PLANILLAS_PLANILLA]
 GO
 
 
-/****PLANILLA****/
+/****HISTORIAL_PLANILLAS****/
 
-ALTER TABLE [dbo].[PLANILLA]  WITH CHECK ADD  CONSTRAINT [FK_PLANILLA_EMPLEADO] FOREIGN KEY([id_empleado], [id_planta])
+ALTER TABLE [dbo].[HISTORIAL_PLANILLAS]  WITH CHECK ADD  CONSTRAINT [FK_PLANILLA_EMPLEADO] FOREIGN KEY([id_empleado], [id_planta])
 REFERENCES [dbo].[EMPLEADO] ([id_empleado], [id_planta])
 GO
 
-ALTER TABLE [dbo].[PLANILLA] CHECK CONSTRAINT [FK_PLANILLA_EMPLEADO]
+ALTER TABLE [dbo].[HISTORIAL_PLANILLAS] CHECK CONSTRAINT [FK_PLANILLA_EMPLEADO]
 GO
-
-
