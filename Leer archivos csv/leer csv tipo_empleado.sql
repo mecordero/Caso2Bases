@@ -1,4 +1,4 @@
-LOAD DATA LOCAL INFILE "C:/Users/Meli/Desktop/Planta 1 - TIPO_EMPLEADO.csv"
+LOAD DATA LOCAL INFILE "C:/Users/Meli/Documents/TEC/2017 2do Sem/Bases 1/Caso 2/Planta 1 - TIPO_EMPLEADO.csv"
 INTO TABLE bd_planta.tipo_empleado
 FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'
