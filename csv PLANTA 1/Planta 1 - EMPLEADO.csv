@@ -1,0 +1,8 @@
+id_empleado,id_planta,nombre,apellidos,fecha_ingreso,fecha_salida,id_supervisor,id_departamento,id_tipo,id_planilla
+-1,NULL,no supervisor,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+1,1,Melisa,Cordero Arias,2014-10-01,NULL,-1,1,1,1
+2,1,Melissa ,Villalobos Madrigal,2016-02-07,NULL,1,2,2,2
+3,1,Fabricio,Alvarado Esquivel,2016-06-09,NULL,1,2,2,3
+4,1,Bryan,Hernandez Sibaja,2010-09-30,NULL,1,3,2,4
+5,1,Diego,Mora Mora,2012-12-05,NULL,1,1,2,5
+6,1,Jose,Aguilar Sanchez,2015-06-12,2017-02-14,1,1,2,6
