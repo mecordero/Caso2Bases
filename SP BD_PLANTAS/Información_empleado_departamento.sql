@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Información_empleado`(IN no_departamento int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Información_empleado_departamento`(IN no_departamento int)
 BEGIN
     SELECT * 
     FROM empleado e
