@@ -14,25 +14,33 @@ BEGIN
 	
     IF (tipo(id_empleado))='S' THEN
     SET dias= (date_sub(fecha_pago, INTERVAL 8 DAY));
-    WHILE fecha_pago >= dias 
+    WHILE fecha_pago <= dias 
     DO
-     	SET horas =  ADDTIME(horas,COALESCE(horas_trabajadas(id_empleado,dias),0)) ;
+		IF (SELECT COUNT(*) FROM feriado f WHERE f.fecha=dias and f.fecha between dias -INTERVAL 1 DAY and fecha_pago+ INTERVAL 1 DAY)=0 then
+			SET horas =  ADDTIME(horas,COALESCE(horas_trabajadas(id_empleado,dias),0)) ;
+        END IF;
 		SET dias = dias + INTERVAL 1 DAY;
 	END WHILE;
     
     ELSE IF(tipo(id_empleado))='Q' THEN
 	SET dias= (date_sub(fecha_pago, INTERVAL 15 DAY));
-	WHILE fecha_pago >= dias 
+	WHILE fecha_pago <= dias 
     DO
-     	SET horas =  ADDTIME(horas,COALESCE(horas_trabajadas(id_empleado,dias),0)) ;
+		
+		IF (SELECT COUNT(*) FROM feriado f WHERE f.fecha=dias  and f.fecha between dias -INTERVAL 1 DAY and fecha_pago+ INTERVAL 1 DAY)=0 then
+			SET horas =  ADDTIME(horas,COALESCE(horas_trabajadas(id_empleado,dias),0)) ;
+		END IF;
 		SET dias = dias + INTERVAL 1 DAY;
 	END WHILE;
     
     ELSE 
 	SET dias= (date_sub(fecha_pago, INTERVAL 30 DAY));
-	WHILE fecha_pago >= dias 
+	WHILE fecha_pago <= dias 
     DO
-     	SET horas =  ADDTIME(horas,COALESCE(horas_trabajadas(id_empleado,dias),0)) ;
+		
+		IF (SELECT COUNT(*) FROM feriado f WHERE f.fecha=dias)=0 then
+			SET horas =  ADDTIME(horas,COALESCE(horas_trabajadas(id_empleado,dias),0)) ;
+			END if;
 		SET dias = dias + INTERVAL 1 DAY;
 	END WHILE;
     END IF;
@@ -57,12 +65,11 @@ BEGIN
                         and he.fecha between dias -INTERVAL 1 DAY and fecha_pago+ INTERVAL 1 DAY
                         );
 	
-    SET horas_dobles  = (SELECT SEC_TO_TIME( SUM( TIME_TO_SEC(he.hora_salida)) - SUM( TIME_TO_SEC(he.hora_entrada)))
+    SET horas_dobles  = (SELECT SEC_TO_TIME( SUM( TIME_TO_SEC(m.marca_salida)) - SUM( TIME_TO_SEC(m.marca_entrada)))
 						 FROM feriados_pagados fp
-                         JOIN horarios_empleados he on fp.id_empleado =he.id_empleado
-						 WHERE id_empleado=fp.id_empleado 
-                         and fp.fecha between dias -INTERVAL 1 DAY and fecha_pago+ INTERVAL 1 DAY
-                         and  he.nombre = nombreDia(fp.fecha)
+                         JOIN marcas m on fp.id_empleado = m.id_empleado and fp.fecha = m.fecha
+						 WHERE id_empleado= fp.id_empleado 
+                         and fp.fecha between dias -INTERVAL 1 DAY and fecha_pago + INTERVAL 1 DAY
                          ) ;
                          
                          
@@ -70,7 +77,7 @@ BEGIN
 	SET salario_bruto = ( COALESCE((SELECT HOUR(horas) * salario_hora),0)+ COALESCE((SELECT HOUR(horas_extras) * salario_hora_extra),0)+COALESCE((SELECT HOUR(horas_dobles) * 2*salario_hora),0) );
 #(salario bruto), menos el 9,17% PREGUNTAR de obligaciones sociales (Obligaciones)
 # y el resultado de la resta de estos rubros (Salario neto).
-	SET obligaciones = (SELECT HOUR(horas) * (9.17));
+	SET obligaciones = (SELECT HOUR(salario_bruto) * (9.17));
 	SET salario_neto = salario_bruto - obligaciones;
 
     
