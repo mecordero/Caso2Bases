@@ -120,7 +120,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[AGUINALDO](
-	[id_aguinaldo] [int] NOT NULL,
+	[id_aguinaldo] [int] IDENTITY(1,1),
 	[id_empleado] [int] NULL,
 	[id_planta] [int] NULL,
 	[monto] [decimal](19, 6) NULL,
@@ -140,7 +140,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[EMPLEADO](
-	[id_empleado] [int] NOT NULL,
+	[id_empleado] [int] IDENTITY(1,1),
 	[id_planta] [int] NOT NULL,
 	[nombre] [nvarchar](15) NULL,
 	[apellidos] [nvarchar](30) NULL,
@@ -167,7 +167,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[PAGO_PLANILLAS](
-	[id_pago] [int] NOT NULL,
+	[id_pago] [int] IDENTITY(1,1),
 	[id_planilla] [int] NULL,
 	[fecha] [date] NULL,
  CONSTRAINT [PK_PAGO_PLANILLAS] PRIMARY KEY CLUSTERED 
@@ -189,7 +189,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[HISTORIAL_PLANILLAS](
-	[id_planilla] [int] NOT NULL,
+	[id_planilla] [int] IDENTITY(1,1),
 	[id_empleado] [int] NULL,
 	[id_planta] [int] NULL,
 	[salario_bruto] [decimal](19, 6) NULL,
